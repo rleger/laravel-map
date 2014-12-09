@@ -129,11 +129,9 @@ class GoogleMaps extends MappingService implements MappingProvider {
     {
         $contents = $this->response->getBody();
 
-        $content_type = $this->getContentType();
-
         $response = \Response::make($contents, '200');
 
-        $response->header('Content-Type', $content_type);
+        $response->header('Content-Type', $this->getContentType());
 
         return $response;
     }
