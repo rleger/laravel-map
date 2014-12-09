@@ -127,9 +127,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
     protected function toImage()
     {
-        $contents = $this->response->getBody();
-
-        $response = \Response::make($contents, '200');
+        $response = \Response::make($this->response->getBody(), '200');
 
         $response->header('Content-Type', $this->getContentType());
 
