@@ -41,24 +41,57 @@ class GoogleMaps extends MappingService implements MappingProvider {
     /**
      * Get an itinerary
      *
-     * @param $from
-     * @param $to
+     * @param       $from
+     * @param       $to
+     *
+     * @param array $options
      *
      * @return mixed
      */
-    public function itinerary($from, $to)
+    public function itinerary($from, $to, $options = [])
     {
         $this->service = 'directions';
 
-        $this->buildQuery([
+        $this->buildQuery(array_merge([
             'origin'      => $from,
             'destination' => $to,
             'sensor'      => 'false'
-        ]);
+        ], $options));
 
         $this->response = new Response($this->runQuery());
 
         return $this;
+    }
+
+    /**
+     * Reverse geocoding
+     *
+     * @param       $lat
+     * @param       $long
+     *
+     * @param array $options
+     *
+     * @return $this
+     */
+    public function reverse($lat, $long, $options = [])
+    {
+        $this->service = 'geocode';
+
+        $this->buildQuery(array_merge(['latlng' => "$lat,$long"], $options));
+
+        $this->response = new Response($this->runQuery());
+
+        return $this;
+    }
+
+    /**
+     * Returns the response object as json
+     *
+     * @return mixed
+     */
+    public function __toString()
+    {
+        return $this->response->get('json');
     }
 
     /**
