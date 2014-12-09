@@ -73,12 +73,10 @@ abstract class MappingService {
     /**
      * Run the query
      *
-     * @param $query
-     *
      * @return string
      */
-    protected function runQuery($query)
+    protected function runQuery()
     {
-        return $this->adapter->get($query);
+        return $this->adapter->get($this->query);
     }
 }

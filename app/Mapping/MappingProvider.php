@@ -8,4 +8,6 @@ interface MappingProvider {
 
     public function geocode($address);
 
+    public function staticmap($address);
+
 }

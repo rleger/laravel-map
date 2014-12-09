@@ -43,10 +43,12 @@ class WelcomeController extends Controller {
 
         $map = new GoogleMaps(new Client(), 'fr', 'fr', null);
 
-        $static = $map->staticMap($from, ['size' => '128x128']);
-        return $static->get();
+//        $static = $map->staticMap($from, ['size' => '128x128']);
+//        return $static->get();
 
         // return $map->itinerary($from, $to)->get();
+
+//        $geocode = $map->geocode($from)->get('array');
 
         $itinerary = $map->itinerary($from, $to)->get('array');
 

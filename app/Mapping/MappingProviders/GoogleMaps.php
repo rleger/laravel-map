@@ -1,6 +1,7 @@
 <?php namespace App\Mapping\MappingProviders;
 
 use App\Mapping\MappingProvider;
+use App\Mapping\Responses\Response;
 
 /**
  * Class GoogleMaps
@@ -55,11 +56,19 @@ class GoogleMaps extends MappingService implements MappingProvider {
             'sensor'      => 'false'
         ]);
 
-        $this->response = $this->runQuery();
+        $this->response = new Response($this->runQuery());
 
         return $this;
     }
 
+    /**
+     * Get a Static Map
+     *
+     * @param       $address
+     * @param array $options
+     *
+     * @return $this
+     */
     public function staticMap($address, $options = [])
     {
         $this->service = 'staticmap';
@@ -69,14 +78,14 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
         // Using default values, can be overridden in $options
         $this->buildQuery(array_merge([
-            'center' => $address,
-            'size'  => '512x512',
-            'zoom' => '14',
+            'center'  => $address,
+            'size'    => '512x512',
+            'zoom'    => '14',
             'maptype' => 'roadmap',
-            'sensor' => 'false'
-            ], $options));
+            'sensor'  => 'false'
+        ], $options));
 
-        $this->response = $this->runQuery();
+        $this->response = new Response($this->runQuery());
 
         return $this;
     }
@@ -94,13 +103,13 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
         $this->buildQuery(['address' => $address]);
 
-        $this->response = $this->runQuery();
+        $this->response = new Response($this->runQuery());
 
         return $this;
     }
 
     /**
-     * get response in a given format
+     * Get response in the asked format
      *
      * @param string $format
      *
@@ -108,40 +117,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
      */
     public function get($format = 'json')
     {
-        if ($this->responseIsImage()) return $this->toImage();
-
-        if ($format === 'array') return $this->toArray();
-
-        return (string) $this->response->getBody();
-    }
-
-    protected function responseIsImage()
-    {
-        return (preg_match('/^image\/.*/i', $this->getContentType()) >= 1);
-    }
-
-    protected function getContentType()
-    {
-        return $this->response->getHeaders()['Content-Type'][0];
-    }
-
-    protected function toImage()
-    {
-        $response = \Response::make($this->response->getBody(), '200');
-
-        $response->header('Content-Type', $this->getContentType());
-
-        return $response;
-    }
-
-    /**
-     * Get response as array
-     *
-     * @return mixed
-     */
-    protected function toArray()
-    {
-        return json_decode((string) $this->response->getBody(), true);
+        return $this->response->get($format);
     }
 
     /**
@@ -149,12 +125,13 @@ class GoogleMaps extends MappingService implements MappingProvider {
      *
      * @param array $parameters
      *
+     * @return bool
      */
     protected function buildQuery($parameters = [])
     {
         $parameters = array_add($parameters, 'key', $this->api_key);
 
-        $output_format = ($this->output_format) ? '/' . $this->output_format : '' ;
+        $output_format = ($this->output_format) ? '/' . $this->output_format : '';
 
         $this->query = $this->api_url . $this->service . $output_format . '?' . http_build_query($parameters, null, '&', PHP_QUERY_RFC3986);
 
