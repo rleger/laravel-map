@@ -43,11 +43,12 @@ class WelcomeController extends Controller {
 
         $map = new GoogleMaps(new Client(), 'fr', 'fr', null);
 
-        return $map->reverse(40.714224,-73.961452, ['region' => 'fr']);
+//        return $map->reverse(40.714224,-73.961452, ['region' => 'fr']);
 //        $static = $map->staticMap($from, ['size' => '128x128']);
 //        return $static->get();
 
         // return $map->itinerary($from, $to)->get();
+         return $map->itinerary("47.25,6.03333", "46.9,6.36667")->get();
 
 //        $geocode = $map->geocode($from)->get('array');
 
