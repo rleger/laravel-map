@@ -79,6 +79,6 @@ abstract class MappingService {
      */
     protected function runQuery($query)
     {
-        return (string) $this->adapter->get($query)->getBody();
+        return $this->adapter->get($query);
     }
 }

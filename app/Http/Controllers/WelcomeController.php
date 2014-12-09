@@ -41,16 +41,10 @@ class WelcomeController extends Controller {
         $to = '144 route de toussieu, 69800';
         $to = 'les rousses';
 
-        $map = new GoogleMaps(new Client(), 'fr', 'fr', null, 'json');
+        $map = new GoogleMaps(new Client(), 'fr', 'fr', null);
 
-        $static = $map->staticMap($from);
-        $contents = $static->getBody();
-        $content_type = $static->getHeaders()['Content-Type'][0];
-
-        $response = \Response::make($contents, '200');
-        $response->header('Content-Type', $content_type);
-
-        return $response;
+        $static = $map->staticMap($from, ['size' => '128x128']);
+        return $static->get();
 
         // return $map->itinerary($from, $to)->get();
 

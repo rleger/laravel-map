@@ -60,24 +60,21 @@ class GoogleMaps extends MappingService implements MappingProvider {
         return $this;
     }
 
-    public function staticMap($address)
+    public function staticMap($address, $options = [])
     {
-        // center=144+route+de+toussieu+69800&zoom=24&size=512x512&maptype=roadmap&markers=color:blue%7Clabel:S%7C40.702147,-74.015794&markers=color:green%7Clabel:G%7C40.711614,-74.012318&markers=color:red%7Ccolor:red%7Clabel:C%7C40.718217,-73.998284&sensor=false&key=AIzaSyDBqIrgIFq0xaTxPtVCbnEHzIVzcTZ-9r0
         $this->service = 'staticmap';
 
+        // We need to clear output_format otherwise 'json' will be appended to the url
         $this->output_format = null;
 
-        $query = $this->buildQuery([
+        // Using default values, can be overridden in $options
+        $query = $this->buildQuery(array_merge([
             'center' => $address,
-            'size'  => '512x512'
-            ]);
-
-        return $this->adapter->get($query);
-
-
-
-
-//******************************************
+            'size'  => '512x512',
+            'zoom' => '14',
+            'maptype' => 'roadmap',
+            'sensor' => 'false'
+            ], $options));
 
         $this->response = $this->runQuery($query);
 
@@ -111,12 +108,34 @@ class GoogleMaps extends MappingService implements MappingProvider {
      */
     public function get($format = 'json')
     {
-        if ($format === 'array')
-        {
-            return $this->toArray();
-        }
+        if ($this->responseIsImage()) return $this->toImage();
 
-        return $this->response;
+        if ($format === 'array') return $this->toArray();
+
+        return (string) $this->response->getBody();
+    }
+
+    protected function responseIsImage()
+    {
+        return (preg_match('/^image\/.*/i', $this->getContentType()) >= 1);
+    }
+
+    protected function getContentType()
+    {
+        return $this->response->getHeaders()['Content-Type'][0];
+    }
+
+    protected function toImage()
+    {
+        $contents = $this->response->getBody();
+
+        $content_type = $this->getContentType();
+
+        $response = \Response::make($contents, '200');
+
+        $response->header('Content-Type', $content_type);
+
+        return $response;
     }
 
     /**
@@ -126,7 +145,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
      */
     protected function toArray()
     {
-        return json_decode($this->response, true);
+        return json_decode((string) $this->response->getBody(), true);
     }
 
     /**
