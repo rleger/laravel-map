@@ -49,13 +49,13 @@ class GoogleMaps extends MappingService implements MappingProvider {
     {
         $this->service = 'directions';
 
-        $query = $this->buildQuery([
+        $this->buildQuery([
             'origin'      => $from,
             'destination' => $to,
             'sensor'      => 'false'
         ]);
 
-        $this->response = $this->runQuery($query);
+        $this->response = $this->runQuery();
 
         return $this;
     }
@@ -68,7 +68,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
         $this->output_format = null;
 
         // Using default values, can be overridden in $options
-        $query = $this->buildQuery(array_merge([
+        $this->buildQuery(array_merge([
             'center' => $address,
             'size'  => '512x512',
             'zoom' => '14',
@@ -76,7 +76,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
             'sensor' => 'false'
             ], $options));
 
-        $this->response = $this->runQuery($query);
+        $this->response = $this->runQuery();
 
         return $this;
     }
@@ -92,9 +92,9 @@ class GoogleMaps extends MappingService implements MappingProvider {
     {
         $this->service = 'geocode';
 
-        $query = $this->buildQuery(['address' => $address]);
+        $this->buildQuery(['address' => $address]);
 
-        $this->response = $this->runQuery($query);
+        $this->response = $this->runQuery();
 
         return $this;
     }
@@ -149,7 +149,6 @@ class GoogleMaps extends MappingService implements MappingProvider {
      *
      * @param array $parameters
      *
-     * @return string
      */
     protected function buildQuery($parameters = [])
     {
@@ -159,6 +158,6 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
         $this->query = $this->api_url . $this->service . $output_format . '?' . http_build_query($parameters, null, '&', PHP_QUERY_RFC3986);
 
-        return $this->query;
+        return true;
     }
 }
