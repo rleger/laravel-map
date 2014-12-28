@@ -2,6 +2,7 @@
 
 use App\Mapping\MappingProvider;
 use App\Mapping\Responses\Response;
+use App\Mapping\Adapters\Adapter;
 
 /**
  * Class GoogleMaps
@@ -25,7 +26,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
      * @param null   $api_key
      * @param string $output_format
      */
-    function __construct($adapter, $language, $region, $api_key = null, $output_format = 'json')
+    function __construct(Adapter $adapter, $language = null, $region = null, $api_key = null, $output_format = 'json')
     {
         $this->adapter = $adapter;
 
@@ -33,7 +34,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
         $this->region = $region;
 
-        $this->api_key = $api_key ? $api_key : 'AIzaSyDBqIrgIFq0xaTxPtVCbnEHzIVzcTZ-9r0';
+        $this->api_key = $api_key ? $api_key : \Config::get('app.GoogleMap.API_Key');
 
         $this->output_format = $output_format;
     }

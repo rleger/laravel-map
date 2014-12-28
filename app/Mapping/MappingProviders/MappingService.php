@@ -69,7 +69,32 @@ abstract class MappingService {
     {
         $this->api_key = $api_key;
     }
+    public function setAdapter($adapter)
+    {
+        $this->adapter = $adapter;
 
+        return $this;
+    }
+
+    public function setOutputFormat($output_format)
+    {
+        $this->output_format = $output_format;
+
+        return $this;
+    }
+
+    public function setRegion($region)
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
     /**
      * Run the query
      *

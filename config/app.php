@@ -2,6 +2,10 @@
 
 return [
 
+	'GoogleMap' => [
+		'API_Key' => 'AIzaSyDBqIrgIFq0xaTxPtVCbnEHzIVzcTZ-9r0'
+	],
+
 	/*
 	|--------------------------------------------------------------------------
 	| Application Debug Mode
