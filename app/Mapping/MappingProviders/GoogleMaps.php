@@ -3,7 +3,7 @@
 use Config;
 use App\Mapping\MappingProvider;
 use App\Mapping\Responses\Response;
-use App\Mapping\Adapters\Adapter;
+use Ivory\HttpAdapter\HttpAdapterInterface;
 
 /**
  * Class GoogleMaps
@@ -27,7 +27,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
      * @param null   $api_key
      * @param string $output_format
      */
-    function __construct(Adapter $adapter, $language = null, $region = null, $api_key = null, $output_format = 'json')
+    function __construct(HttpAdapterInterface $adapter, $language = null, $region = null, $api_key = null, $output_format = 'json')
     {
         $this->adapter = $adapter;
 

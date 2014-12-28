@@ -120,6 +120,7 @@ return [
 		'App\Providers\AppServiceProvider',
 		'App\Providers\EventServiceProvider',
 		'App\Providers\RouteServiceProvider',
+		'App\Providers\MappingServiceProvider',
 
 		/*
 		 * Laravel Framework Service Providers...

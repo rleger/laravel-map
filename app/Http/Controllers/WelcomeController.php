@@ -40,11 +40,10 @@ class WelcomeController extends Controller {
         $map->setLanguage('fr')->setRegion('fr');
         $from = '4 bis rue victor delavelle, besançon';
         $to = '144 route de toussieu, 69800';
-        $to = 'les rousses';
 
         // $map = new GoogleMaps(new Client(), 'fr', 'fr', null);
 
-        return $map->reverse(40.714224,-73.961452, ['region' => 'fr'])->get();
+        // return $map->reverse(40.714224,-73.961452, ['region' => 'fr'])->get();
         return $map->staticMap($from, ['size' => '512x512'])->get();
         // return $map->itinerary($from, $to)->get();
 

@@ -26,10 +26,6 @@ class AppServiceProvider extends ServiceProvider {
 		// "Registrar" implementation here. You can add your own bindings too!
 
 		$this->app->bind('Illuminate\Contracts\Auth\Registrar', 'App\Services\Registrar');
-
-		$this->app->bind('App\Mapping\MappingProvider', 'App\Mapping\MappingProviders\GoogleMaps');
-
-		$this->app->bind('App\Mapping\Adapters\Adapter', 'App\Mapping\Adapters\GuzzleAdapter');
 	}
 
 }

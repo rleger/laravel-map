@@ -1,10 +1,10 @@
 <?php namespace App\Mapping;
 
-use App\Mapping\Adapters\Adapter;
+use Ivory\HttpAdapter\HttpAdapterInterface;
 
 interface MappingProvider {
 
-    function __construct(Adapter $adapter, $language = null, $region = null, $api_key = null, $output_format = 'json');
+    function __construct(HttpAdapterInterface $adapter, $language = null, $region = null, $api_key = null, $output_format = 'json');
 
     public function itinerary($from, $to);
 
