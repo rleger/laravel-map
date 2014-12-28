@@ -1,5 +1,6 @@
 <?php namespace App\Mapping\MappingProviders;
 
+use Config;
 use App\Mapping\MappingProvider;
 use App\Mapping\Responses\Response;
 use App\Mapping\Adapters\Adapter;
@@ -34,7 +35,7 @@ class GoogleMaps extends MappingService implements MappingProvider {
 
         $this->region = $region;
 
-        $this->api_key = $api_key ? $api_key : \Config::get('app.GoogleMap.API_Key');
+        $this->api_key = $api_key ? $api_key : Config::get('app.GoogleMap.API_Key');
 
         $this->output_format = $output_format;
     }
